@@ -1,49 +1,27 @@
 package org.example;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.math.BigInteger;
-import java.util.Scanner;
+import java.io.*;
 
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException {
-
-        Scanner in = new Scanner(new File("input.txt"));
-        int n = in.nextInt();
-
-        BigInteger res = factorial(n);
-
+    public static void main(String[] args) throws IOException {
+        BufferedReader in = new BufferedReader(new FileReader("input.txt"));
         PrintWriter out = new PrintWriter("output.txt");
-        int result = checkZeros(res);
+
+        int n = Integer.parseInt(in.readLine());
+
+        int result = countTrailingZeros(n);
 
         out.println(result);
+        in.close();
         out.close();
-
     }
 
-    public static int checkZeros (BigInteger f){
-        int counter = 0;
-
-        String input = String.valueOf(f);
-        for (int i = input.length() - 1; i > 0 ; i--) {
-            if (input.charAt(i) == '0') {
-                counter++;
-            } else {
-                return counter;
-            }
+    public static int countTrailingZeros(int n) {
+        int count = 0;
+        while (n >= 5) {
+            n /= 5;
+            count += n;
         }
-
-        return counter;
+        return count;
     }
-
-    public static BigInteger factorial (int n){
-        BigInteger factorial = BigInteger.ONE;
-        if (n == 1) return factorial;
-        for (int i = 2; i <= n; i++) {
-            factorial = factorial.multiply(BigInteger.valueOf(i));
-        }
-        return factorial;
-    }
-
 }
